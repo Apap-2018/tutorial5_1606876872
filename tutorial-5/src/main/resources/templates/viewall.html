@@ -10,11 +10,25 @@
 
 <body>
 	<nav th:replace="fragments/fragment :: navbar"></nav>
-	<h2>Hello!</h2>
+<h1>All Flights</h1>
 	
-	<h3 th:text="'Flight Number: ' +  ${flightNumber}"></h3>
-	<h3 th:text="'License Number Pilot yang Bertugas: ' +  ${pilot.licenseNumber}"></h3>
-	<h3 th:text="'Name Pilot yang Bertugas: ' +  ${pilot.name}"></h3>
+		<div th:each= "pilot : ${pilotList}">
+			<div th:each= "flight : ${pilot.pilotFlight}">
+			
+				<h3 th:text="'Pilot Name : ' + ${pilot.name}"></h3>
+				
+				<h3 th:text="'Pilot licenseNumber : ' + ${pilot.licenseNumber}"></h3>
+			
+				<h3 th:text="'Flight Number : ' + ${flight.flightNumber}"></h3>
+				
+				<h3 th:text="'Origin : ' + ${flight.origin}"></h3>
+				
+				<h3 th:text="'Destination : ' + ${flight.destination}"></h3>
+				
+				<h3 th:text="'Time : ' + ${flight.time}"></h3>
+			</div>
+			<br>
 	
+	</div>
 </body>
 </html>

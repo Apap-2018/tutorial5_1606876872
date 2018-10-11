@@ -1,5 +1,7 @@
 package com.apap.tutorial5.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,21 +31,19 @@ public class PilotServiceImpl implements PilotService{
 		pilotDb.save(pilot);
 	}
 	
-/*	@Override
-	public void deletePilot (String licenseNumber) {
-		pilotDb.delete(this.getPilotDetailByLicenseNumber(licenseNumber));
-	}*/
+	@Override
+	public List<PilotModel> getListPilot() {
+		// TODO Auto-generated method stub
+		return pilotDb.findAll();
+	}
 	
+
 	@Override
 	public void deletePilotById (long id) {
 		pilotDb.deleteById(id);
 	}
 	
-/*	@Override
-	public void deletePilot(PilotModel pilot) {
-		pilotDb.delete(pilot);
-	}
-	*/
+
 	@Override
 	public void updatePilot (String licenseNumber, PilotModel newPilot) {
 		PilotModel oldPilot = this.getPilotDetailByLicenseNumber(licenseNumber);

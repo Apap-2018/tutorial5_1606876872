@@ -10,25 +10,31 @@
 
 <body>
 	<nav th:replace="fragments/fragment :: navbar"></nav>
-	<h2>Hello!</h2>
 	
-	<h3>Tambah Penerbangan</h3>
-	<form th:action="@{/flight/add}" th:object="${flight}" method="POST">
-		<input type="hidden" th:field="*{pilot}"/>
-		Flight Number: <br>
-		<input type="text" name="flightNumber" />
-		<br>
-		Origin: <br>
-		<input type="text" name="origin" />
-		<br>
-		Destination: <br>
-		<input type="text" name="destination" />
-		<br>
-		Time: <br>
-		<input type="date" name="time" />
-		<br><br>
-		<button type="submit">Submit</button>
-	</form>
+	<form th:action="@{/flight/add/} + ${pilot.licenseNumber}" th:object="${pilot}" method = "POST">
+		<input type="hidden" th:field="*{licenseNumber}"></input>
+		<table>
+			<thead>
+				<tr>
+					<th>Fligth Number</th>
+					<th>Origin</th>
+					<th>Destination</th>
+					<th>Time</th>
+					<th><button type="submit" name="addRow">Add Row</button></th>
+				</tr>
+			</thead>
+			<tbody>
+			<tr th:each="flight,rowStat : *{pilotFlight}">
+				<td><input type="text" th:field="*{pilotFlight[__${rowStat.index}__].flightNumber}"/></td>
+				<td><input type="text" th:field="*{pilotFlight[__${rowStat.index}__].origin}"/></td>
+				<td><input type="text" th:field="*{pilotFlight[__${rowStat.index}__].destination}"/></td>
+				<td><input type="date" th:field="*{pilotFlight[__${rowStat.index}__].time}"/></td>
+				<td><button type="submit" name="removeRow" th:value="${rowStat.index}">Remove</button></td>
+			</tr>
+			</tbody>
+		</table>
+		<button type="submit" name="save">Submit</button>
+		</form>
 </body>
 
 </html>

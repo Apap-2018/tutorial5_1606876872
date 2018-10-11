@@ -1,5 +1,7 @@
 package com.apap.tutorial5.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.apap.tutorial5.model.FlightModel;
 import com.apap.tutorial5.model.PilotModel;
 import com.apap.tutorial5.service.PilotService;
 
@@ -41,26 +44,25 @@ public class PilotController {
 	@RequestMapping(value = "/pilot/view", method = RequestMethod.GET)
 	private String viewPilot(@RequestParam("licenseNumber") String licenseNumber, Model model) {
 		PilotModel pilots = pilotService.getPilotDetailByLicenseNumber(licenseNumber);
-		
+		List<FlightModel> flightList = pilots.getPilotFlight();
 		model.addAttribute("pilot", pilots);
+		model.addAttribute("flightList", flightList);
 		model.addAttribute("title", "View Pilot");
 		return "view-pilot";
-//		if (pilots==null) {
-//			model.addAttribute("licenseNum", licenseNumber);
-//			return "salah";
-//		}else {
-//			model.addAttribute("pilot", pilots);
-//			model.addAttribute("flightList", pilots.getPilotFlight());
-//			return "view-pilot";
-//		}	
+
 	}
 	
-/*	@RequestMapping(value = "/pilot/delete/{licenseNumber}", method = RequestMethod.GET)
-	private String deletePilot(@PathVariable( value = "licenseNumber") String licenseNumber, Model model) {
-		pilotService.deletePilot(licenseNumber);
-		return "delete-pilot";
+	@RequestMapping(value = "/pilot/viewall/", method = RequestMethod.GET)
+	private String viewall(Model model) {
+		List<PilotModel> pilotList = pilotService.getListPilot();
 		
-	}*/
+		model.addAttribute("pilotList", pilotList);
+		model.addAttribute("title", "Viewall");
+		
+		
+		return "viewall";
+	}
+
 	
 	@RequestMapping(value = "/pilot/delete/{id}", method = RequestMethod.GET)
 	private String deletePilot(@PathVariable( value = "id") long id, Model model) {
@@ -69,14 +71,6 @@ public class PilotController {
 		return "delete-pilot";
 	}
 
-	
-/*	@RequestMapping(value = "/pilot/delete", method = RequestMethod.GET)
-	private String deletePilot(@RequestParam("pilotId") long id, Model model) {
-		PilotModel pilot = pilotService.getPilotDetailById(id);
-		pilotService.deletePilot(pilot);
-		model.addAttribute("title", " Delete Pilot");
-		return "delete-pilot";
-	}*/
 	
 	@RequestMapping(value = "/pilot/update{licenseNumber}", method = RequestMethod.GET)
 	private String update(@PathVariable(value= "licenseNumber") String licenseNumber, Model model) {
